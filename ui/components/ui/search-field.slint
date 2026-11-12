@@ -1,0 +1,51 @@
+import { Palette } from "../../theme/colors.slint";
+import { Type } from "../../theme/typography.slint";
+import { Space, Radius, Motion } from "../../theme/spacing.slint";
+
+export component SearchField inherits Rectangle {
+    in property <string> placeholder: "Search";
+    in-out property <string> text <=> input.text;
+    callback edited(string);
+
+    height: 36px;
+    min-width: 220px;
+    border-radius: Radius.md;
+    background: Palette.surface-raised;
+    border-width: 1px;
+    border-color: input.has-focus ? Palette.honey : Palette.border;
+
+    animate border-color { duration: Motion.fast; }
+
+    HorizontalLayout {
+        padding-left: Space.md;
+        padding-right: Space.md;
+        spacing: Space.sm;
+
+        Image {
+            source: @image-url("../../assets/icons/search.svg");
+            colorize: Palette.text-subtle;
+            width: 16px;
+            height: 16px;
+            y: (parent.height - self.height) / 2;
+        }
+
+        Rectangle {
+            input := TextInput {
+                color: Palette.text;
+                font-size: Type.body;
+                selection-background-color: Palette.honey-soft;
+                vertical-alignment: center;
+                edited => { root.edited(self.text); }
+            }
+
+            if input.text == "": Text {
+                text: root.placeholder;
+                color: Palette.text-subtle;
+                font-size: Type.body;
+                vertical-alignment: center;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+}
