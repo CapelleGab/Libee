@@ -1,0 +1,21 @@
+name: ✨ Feature request
+description: Suggest an idea or an improvement
+labels: ["type: feature"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does it solve?
+      placeholder: When I…, I want to…
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
