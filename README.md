@@ -1,14 +1,15 @@
 <div align="center">
-  <img src="docs/assets/logo.svg" alt="Libee logo" width="128" />
+  <img src="docs/assets/logo.png" alt="Libee mascot" width="160" />
 
   <h1>Libee</h1>
 
   <p><strong>See, understand and clean up the dev tools living on your machine.</strong></p>
 
   <p>
-    <a href="https://github.com/CapelleGab/Libee/actions/workflows/ci.yml"><img src="https://github.com/CapelleGab/Libee/actions/workflows/ci.yml/badge.svg?branch=dev" alt="CI" /></a>
-    <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-f59e0b" alt="License: GPLv3" /></a>
-    <img src="https://img.shields.io/badge/built%20with-Rust%20%2B%20Slint-1a1612" alt="Built with Rust + Slint" />
+    <a href="https://github.com/CapelleGab/Libee/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/CapelleGab/Libee/ci.yml?branch=dev&style=for-the-badge&label=build&labelColor=1a1612&color=f5b82e" alt="Build status" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-f5b82e?style=for-the-badge&labelColor=1a1612" alt="License: GPLv3" /></a>
+    <img src="https://img.shields.io/badge/rust-2024-f5b82e?style=for-the-badge&logo=rust&logoColor=white&labelColor=1a1612" alt="Rust 2024" />
+    <img src="https://img.shields.io/badge/ui-slint-f5b82e?style=for-the-badge&labelColor=1a1612" alt="Slint" />
   </p>
 </div>
 
