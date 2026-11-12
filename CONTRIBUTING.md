@@ -48,23 +48,30 @@ cargo test
 
 ## Architecture
 
-Libee is organized **feature-first**: each feature owns its model, logic and Slint view.
+Rust logic lives in `src/`, the Slint interface lives in `ui/`.
 
 ```
 src/
-├── main.rs        # entry point, wires features to the window
-├── shared/        # errors, structured commands, common types
-├── managers/      # one adapter per package manager (brew, npm…)
-└── features/
-    ├── inventory/ # model.rs, scan.rs, view.slint
-    ├── cleanup/   # preview.rs, run.rs, view.slint
-    └── history/
+├── main.rs
+├── app/          # the only bridge between Rust and Slint: state, callbacks, navigation
+├── models/       # Tool, Manager, Scope, Status…
+├── managers/     # one adapter per package manager (brew, npm…)
+├── services/     # inventory scan, cleanup, history
+└── shared/       # errors, structured commands, utilities
+
 ui/
-├── main.slint     # app window and navigation
-└── theme/         # design tokens and reusable components
+├── app.slint     # root window and routing
+├── theme/        # design tokens: colors, typography, spacing, radius
+├── components/
+│   ├── ui/       # primitives: button, badge, card, input
+│   └── …         # composites: sidebar, tool row, stat card
+├── views/        # screens: inventory, tool detail, history
+└── assets/       # logo, fonts, icons
 ```
 
-Folders are created when the first feature needs them — no empty placeholders.
+- `ui/` holds no logic: data comes in through properties, actions go out through callbacks.
+- `models`, `managers` and `services` never depend on Slint, so they stay testable.
+- Folders are created when the first piece of code needs them.
 
 ## Safety rules
 
