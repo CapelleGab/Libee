@@ -2441,9 +2441,13 @@ checksum = "65cd87c9a6d60536580b316ad985726104730a5151c99845f2490428ef91240a"
 name = "libee"
 version = "0.1.0"
 dependencies = [
+ "serde",
+ "serde_json",
  "slint",
  "slint-build",
+ "tempfile",
  "thiserror 2.0.21",
+ "which",
 ]
 
 [[package]]
@@ -5115,6 +5119,15 @@ dependencies = [
  "naga-types",
  "raw-window-handle",
  "static_assertions",
+]
+
+[[package]]
+name = "which"
+version = "8.0.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bae2f2b2b816647a1cab1acc91f5bd20812d53cb344382635ec2181940c8034f"
+dependencies = [
+ "libc",
 ]
 
 [[package]]
