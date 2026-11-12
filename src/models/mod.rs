@@ -4,4 +4,4 @@ mod package;
 
 pub use cache::Cache;
 pub use manager::{Manager, ManagerKind};
-pub use package::{Package, Scope, Status};
+pub use package::{Package, PackageKind, Scope, Status};
