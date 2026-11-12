@@ -17,6 +17,6 @@ updates:
     target-branch: dev
     schedule:
       interval: weekly
-    labels: ["dependencies", "type: ci"]
+    labels: ["dependencies", "ci"]
     commit-message:
       prefix: "ci(deps)"
