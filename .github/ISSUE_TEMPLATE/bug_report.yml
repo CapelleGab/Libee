@@ -1,0 +1,40 @@
+name: 🐞 Bug report
+description: Report something that doesn't work as expected
+labels: ["type: bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to report this 🐝
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Launch Libee
+        2. Click on…
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options: [macOS, Linux, Windows]
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Libee version
+      placeholder: v0.1.0
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      render: shell
