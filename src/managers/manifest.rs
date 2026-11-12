@@ -8,6 +8,9 @@ use serde::de::IgnoredAny;
 /// The parts of a Node `package.json` Libee cares about. Shared by npm, pnpm and Yarn.
 #[derive(Debug, Default, Deserialize)]
 pub struct Manifest {
+    pub description: Option<String>,
+    #[serde(default, deserialize_with = "homepage")]
+    pub homepage: Option<String>,
     #[serde(default)]
     bin: Option<Bin>,
     #[serde(default)]
@@ -19,6 +22,14 @@ pub struct Manifest {
 enum Bin {
     Named(BTreeMap<String, String>),
     Single(IgnoredAny),
+}
+
+/// Some manifests put an object or a list here instead of a URL; ignore those.
+fn homepage<'de, D: serde::Deserializer<'de>>(deserializer: D) -> Result<Option<String>, D::Error> {
+    Ok(match serde_json::Value::deserialize(deserializer)? {
+        serde_json::Value::String(url) => Some(url),
+        _ => None,
+    })
 }
 
 impl Manifest {
@@ -59,10 +70,16 @@ mod tests {
     #[test]
     fn reads_named_binaries_and_dependencies() {
         let manifest = manifest(
-            r#"{ "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" },
+            r#"{ "description": "TypeScript compiler", "homepage": "https://www.typescriptlang.org",
+                 "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" },
                  "dependencies": { "semver": "^7.0.0" } }"#,
         );
 
+        assert_eq!(manifest.description.as_deref(), Some("TypeScript compiler"));
+        assert_eq!(
+            manifest.homepage.as_deref(),
+            Some("https://www.typescriptlang.org")
+        );
         assert_eq!(manifest.binaries("typescript"), ["tsc", "tsserver"]);
         assert_eq!(manifest.dependencies(), ["semver"]);
     }
@@ -72,6 +89,13 @@ mod tests {
         let manifest = manifest(r#"{ "bin": "./cli.js" }"#);
 
         assert_eq!(manifest.binaries("@angular/cli"), ["cli"]);
+    }
+
+    #[test]
+    fn ignores_non_string_homepage() {
+        let manifest = manifest(r#"{ "homepage": { "url": "x" } }"#);
+
+        assert!(manifest.homepage.is_none());
     }
 
     #[test]

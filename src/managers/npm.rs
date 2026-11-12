@@ -127,6 +127,9 @@ impl<R: CommandRunner> PackageManager for Npm<R> {
                     Package::new(ManagerKind::Npm, &name, entry.version.unwrap_or_default());
                 package.binaries = manifest.binaries(&name);
                 package.dependencies = manifest.dependencies();
+                package.description = manifest.description;
+                package.homepage = manifest.homepage;
+                package.explicit = Some(true);
                 package.installed_at = fs::metadata(&path).and_then(|meta| meta.created()).ok();
                 package.path = path;
                 package
@@ -202,7 +205,7 @@ mod tests {
         fs::create_dir_all(&typescript).unwrap();
         fs::write(
             typescript.join("package.json"),
-            r#"{ "bin": { "tsc": "bin/tsc" }, "dependencies": { "semver": "^7" } }"#,
+            r#"{ "description": "TypeScript compiler", "bin": { "tsc": "bin/tsc" }, "dependencies": { "semver": "^7" } }"#,
         )
         .unwrap();
 
@@ -218,6 +221,10 @@ mod tests {
         assert_eq!(typescript.version, "7.0.2");
         assert_eq!(typescript.binaries, ["tsc"]);
         assert_eq!(typescript.dependencies, ["semver"]);
+        assert_eq!(
+            typescript.description.as_deref(),
+            Some("TypeScript compiler")
+        );
         assert_eq!(typescript.path, root.path().join("typescript"));
         assert!(typescript.installed_at.is_some());
 
