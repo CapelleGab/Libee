@@ -1,0 +1,11 @@
+import { InventoryView } from "../src/features/inventory/view.slint";
+
+export component AppWindow inherits Window {
+    title: "Libee";
+    preferred-width: 1100px;
+    preferred-height: 720px;
+    min-width: 800px;
+    min-height: 520px;
+
+    InventoryView { }
+}
