@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="cell" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2A221A"/>
+      <stop offset="1" stop-color="#14100C"/>
+    </linearGradient>
+    <linearGradient id="honey" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#FFD166"/>
+      <stop offset="1" stop-color="#F59E0B"/>
+    </linearGradient>
+    <linearGradient id="wing" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFF6DD" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#FFE7A8" stop-opacity="0.55"/>
+    </linearGradient>
+    <mask id="stripes">
+      <rect width="512" height="512" fill="#fff"/>
+      <g fill="#000">
+        <rect x="150" y="286" width="212" height="22" rx="4"/>
+        <rect x="150" y="340" width="212" height="22" rx="4"/>
+        <rect x="150" y="394" width="212" height="18" rx="4"/>
+      </g>
+    </mask>
+  </defs>
+
+  <!-- hive cell -->
+  <polygon points="256,50 434.4,153 434.4,359 256,462 77.6,359 77.6,153"
+           fill="url(#cell)" stroke="url(#cell)" stroke-width="52" stroke-linejoin="round"/>
+  <polygon points="256,72 415.3,164 415.3,348 256,440 96.7,348 96.7,164"
+           fill="none" stroke="#FFD166" stroke-opacity="0.14" stroke-width="3" stroke-linejoin="round"/>
+
+  <g transform="translate(256 262) scale(0.86) translate(-256 -278)">
+  <!-- wings -->
+  <path d="M232 226 C188 238 132 222 118 186 C106 154 140 134 178 148 C210 160 230 192 232 226 Z" fill="url(#wing)"/>
+  <path d="M280 226 C324 238 380 222 394 186 C406 154 372 134 334 148 C302 160 282 192 280 226 Z" fill="url(#wing)"/>
+
+  <!-- antennae -->
+  <g fill="none" stroke="url(#honey)" stroke-width="10" stroke-linecap="round">
+    <path d="M238 150 C230 124 214 110 194 108"/>
+    <path d="M274 150 C282 124 298 110 318 108"/>
+  </g>
+  <circle cx="192" cy="108" r="10" fill="#FFD166"/>
+  <circle cx="320" cy="108" r="10" fill="#FFD166"/>
+
+  <!-- head -->
+  <circle cx="256" cy="180" r="36" fill="url(#honey)"/>
+
+  <!-- abdomen -->
+  <path mask="url(#stripes)" fill="url(#honey)"
+        d="M256 230 C314 230 340 274 340 318 C340 378 296 418 256 448 C216 418 172 378 172 318 C172 274 198 230 256 230 Z"/>
+  </g>
+</svg>
