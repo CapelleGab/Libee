@@ -1,0 +1,30 @@
+import { Palette } from "../theme/colors.slint";
+import { Type } from "../theme/typography.slint";
+import { Card } from "ui/card.slint";
+
+export component StatCard inherits Card {
+    in property <string> label;
+    in property <string> value;
+    in property <string> hint;
+
+    Text {
+        text: root.label;
+        color: Palette.text-muted;
+        font-size: Type.caption;
+        font-weight: Type.semibold;
+        letter-spacing: 0.6px;
+    }
+
+    Text {
+        text: root.value;
+        color: Palette.text;
+        font-size: Type.display;
+        font-weight: Type.bold;
+    }
+
+    Text {
+        text: root.hint;
+        color: Palette.text-subtle;
+        font-size: Type.caption;
+    }
+}

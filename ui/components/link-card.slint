@@ -1,0 +1,71 @@
+import { Palette } from "../theme/colors.slint";
+import { Type } from "../theme/typography.slint";
+import { Space, Radius, Motion } from "../theme/spacing.slint";
+
+export component LinkCard inherits Rectangle {
+    in property <string> title;
+    in property <string> description;
+    in property <image> icon;
+    callback clicked;
+
+    height: 76px;
+    border-radius: Radius.lg;
+    border-width: 1px;
+    border-color: touch.has-hover ? Palette.border-strong : Palette.border;
+    background: touch.has-hover ? Palette.surface-raised : Palette.surface;
+
+    animate background, border-color { duration: Motion.fast; }
+
+    HorizontalLayout {
+        padding: Space.lg;
+        spacing: Space.lg;
+
+        Rectangle {
+            width: 44px;
+            height: 44px;
+            border-radius: Radius.md;
+            background: Palette.honey-soft;
+
+            Image {
+                source: root.icon;
+                colorize: Palette.honey;
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        VerticalLayout {
+            alignment: center;
+            spacing: 2px;
+
+            Text {
+                text: root.title;
+                color: Palette.text;
+                font-size: Type.heading;
+                font-weight: Type.semibold;
+            }
+
+            Text {
+                text: root.description;
+                color: Palette.text-muted;
+                font-size: Type.body;
+            }
+        }
+
+        VerticalLayout {
+            alignment: center;
+
+            Image {
+                source: @image-url("../assets/icons/chevron-right.svg");
+                colorize: touch.has-hover ? Palette.honey : Palette.text-subtle;
+                width: 18px;
+                height: 18px;
+            }
+        }
+    }
+
+    touch := TouchArea {
+        mouse-cursor: pointer;
+        clicked => { root.clicked(); }
+    }
+}
