@@ -77,11 +77,21 @@ pub(crate) mod fake {
             self
         }
 
-        pub fn failing(mut self, command: &str, code: i32, stderr: &str) -> Self {
+        pub fn failing(self, command: &str, code: i32, stderr: &str) -> Self {
+            self.failing_with_stdout(command, code, "", stderr)
+        }
+
+        pub fn failing_with_stdout(
+            mut self,
+            command: &str,
+            code: i32,
+            stdout: &str,
+            stderr: &str,
+        ) -> Self {
             let output = CommandOutput {
                 success: false,
                 code: Some(code),
-                stdout: String::new(),
+                stdout: stdout.to_owned(),
                 stderr: stderr.to_owned(),
             };
             self.outputs.insert(command.to_owned(), output);
