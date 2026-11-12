@@ -1,11 +1,27 @@
-import { InventoryView } from "views/inventory.slint";
+import { Palette } from "theme/colors.slint";
+import { Type } from "theme/typography.slint";
+import { HomeView } from "views/home.slint";
+import { ShowcaseView } from "views/showcase.slint";
+
+enum Page { home, design-system }
 
 export component AppWindow inherits Window {
     title: "Libee";
-    preferred-width: 1100px;
-    preferred-height: 720px;
-    min-width: 800px;
-    min-height: 520px;
+    preferred-width: 1180px;
+    preferred-height: 760px;
+    min-width: 860px;
+    min-height: 560px;
+    background: Palette.background;
+    default-font-family: Type.sans;
+    default-font-size: Type.body;
 
-    InventoryView { }
+    property <Page> page: Page.home;
+
+    if root.page == Page.home: HomeView {
+        open-design-system => { root.page = Page.design-system; }
+    }
+
+    if root.page == Page.design-system: ShowcaseView {
+        back => { root.page = Page.home; }
+    }
 }
