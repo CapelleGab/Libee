@@ -1,0 +1,63 @@
+import { Palette } from "../../theme/colors.slint";
+import { Type } from "../../theme/typography.slint";
+import { Space, Radius, Motion } from "../../theme/spacing.slint";
+
+export enum ButtonVariant { primary, secondary, ghost, danger }
+
+export component Button inherits Rectangle {
+    in property <string> text;
+    in property <image> icon;
+    in property <ButtonVariant> variant: primary;
+    in property <bool> enabled: true;
+    callback clicked;
+
+    property <bool> has-icon: icon.width > 0;
+    property <color> fg: variant == ButtonVariant.primary ? Palette.on-honey
+        : variant == ButtonVariant.danger ? Palette.danger
+        : Palette.text;
+
+    min-height: 34px;
+    min-width: layout.preferred-width;
+    border-radius: Radius.md;
+    border-width: variant == ButtonVariant.secondary ? 1px : 0;
+    border-color: Palette.border-strong;
+    opacity: enabled ? 1 : 0.45;
+    background: variant == ButtonVariant.primary
+        ? (touch.pressed ? Palette.honey-pressed : touch.has-hover ? Palette.honey-hover : Palette.honey)
+        : variant == ButtonVariant.danger
+        ? (touch.has-hover ? Palette.danger-soft : transparent)
+        : variant == ButtonVariant.secondary
+        ? (touch.has-hover ? Palette.surface-hover : Palette.surface-raised)
+        : (touch.has-hover ? Palette.surface-hover : transparent);
+
+    animate background { duration: Motion.fast; }
+
+    layout := HorizontalLayout {
+        padding-left: Space.md + Space.xs;
+        padding-right: Space.md + Space.xs;
+        spacing: Space.sm;
+        alignment: center;
+
+        if has-icon: Image {
+            source: root.icon;
+            colorize: root.fg;
+            width: 16px;
+            height: 16px;
+            y: (parent.height - self.height) / 2;
+        }
+
+        Text {
+            text: root.text;
+            color: root.fg;
+            font-size: Type.body;
+            font-weight: Type.semibold;
+            vertical-alignment: center;
+        }
+    }
+
+    touch := TouchArea {
+        enabled: root.enabled;
+        mouse-cursor: pointer;
+        clicked => { root.clicked(); }
+    }
+}

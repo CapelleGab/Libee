@@ -1,0 +1,51 @@
+import { Palette } from "../../theme/colors.slint";
+import { Type } from "../../theme/typography.slint";
+import { Space, Radius } from "../../theme/spacing.slint";
+
+export enum BadgeTone { neutral, honey, success, warning, danger, info }
+
+export component Badge inherits Rectangle {
+    in property <string> text;
+    in property <BadgeTone> tone: neutral;
+
+    property <color> fg: tone == BadgeTone.honey ? Palette.honey
+        : tone == BadgeTone.success ? Palette.success
+        : tone == BadgeTone.warning ? Palette.warning
+        : tone == BadgeTone.danger ? Palette.danger
+        : tone == BadgeTone.info ? Palette.info
+        : Palette.text-muted;
+
+    height: 22px;
+    min-width: label.preferred-width + 2 * Space.sm + Space.xs + 6px;
+    max-width: self.min-width;
+    horizontal-stretch: 0;
+    border-radius: Radius.full;
+    background: tone == BadgeTone.honey ? Palette.honey-soft
+        : tone == BadgeTone.success ? Palette.success-soft
+        : tone == BadgeTone.warning ? Palette.warning-soft
+        : tone == BadgeTone.danger ? Palette.danger-soft
+        : tone == BadgeTone.info ? Palette.info-soft
+        : Palette.surface-hover;
+
+    HorizontalLayout {
+        padding-left: Space.sm + 2px;
+        padding-right: Space.sm + 2px;
+        spacing: Space.xs + 2px;
+
+        Rectangle {
+            width: 6px;
+            height: 6px;
+            y: (parent.height - self.height) / 2;
+            border-radius: 3px;
+            background: root.fg;
+        }
+
+        label := Text {
+            text: root.text;
+            color: root.fg;
+            font-size: Type.caption;
+            font-weight: Type.semibold;
+            vertical-alignment: center;
+        }
+    }
+}
