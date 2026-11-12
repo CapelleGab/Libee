@@ -1,0 +1,30 @@
+import { Button, VerticalBox } from "std-widgets.slint";
+
+export component AppWindow inherits Window {
+    title: "Libee";
+    width: 900px;
+    height: 600px;
+
+    VerticalBox {
+        alignment: LayoutAlignment.center;
+        visible: true;
+
+        Text {
+            text: "Libee";
+            horizontal-alignment: center;
+            font-size: 32px;
+        }
+
+        Text {
+            text: "Gestionnaire d'outils développeur";
+            horizontal-alignment: center;
+        }
+
+        Button {
+            text: "Fermer";
+            clicked => {
+                root.close();
+            };
+        }
+    }
+}
