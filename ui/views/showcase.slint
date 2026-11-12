@@ -1,0 +1,229 @@
+import { ScrollView } from "std-widgets.slint";
+import { Palette } from "../theme/colors.slint";
+import { Type } from "../theme/typography.slint";
+import { Space, Radius } from "../theme/spacing.slint";
+import { Button, ButtonVariant } from "../components/ui/button.slint";
+import { Badge, BadgeTone } from "../components/ui/badge.slint";
+import { Card } from "../components/ui/card.slint";
+import { SearchField } from "../components/ui/search-field.slint";
+import { StatCard } from "../components/stat-card.slint";
+
+component Section inherits VerticalLayout {
+    in property <string> title;
+    in property <string> description;
+
+    spacing: Space.md;
+
+    VerticalLayout {
+        spacing: Space.xs;
+
+        Text {
+            text: root.title;
+            color: Palette.text;
+            font-size: Type.heading;
+            font-weight: Type.semibold;
+        }
+
+        Text {
+            text: root.description;
+            color: Palette.text-subtle;
+            font-size: Type.body;
+        }
+    }
+
+    @children
+}
+
+component Swatch inherits VerticalLayout {
+    in property <string> name;
+    in property <color> color;
+
+    spacing: Space.sm;
+    width: 112px;
+
+    Rectangle {
+        height: 64px;
+        border-radius: Radius.md;
+        background: root.color;
+        border-width: 1px;
+        border-color: Palette.border;
+    }
+
+    Text {
+        text: root.name;
+        color: Palette.text;
+        font-size: Type.caption;
+        font-weight: Type.semibold;
+    }
+}
+
+component TypeSample inherits HorizontalLayout {
+    in property <string> name;
+    in property <length> size;
+    in property <int> weight;
+    in property <string> family: Type.sans;
+
+    spacing: Space.xl;
+
+    Text {
+        text: root.name;
+        width: 96px;
+        color: Palette.text-subtle;
+        font-size: Type.caption;
+        font-family: Type.mono;
+        vertical-alignment: center;
+    }
+
+    Text {
+        text: "Your machine, finally readable.";
+        color: Palette.text;
+        font-size: root.size;
+        font-weight: root.weight;
+        font-family: root.family;
+        vertical-alignment: center;
+    }
+}
+
+export component ShowcaseView inherits Rectangle {
+    callback back;
+
+    ScrollView {
+        viewport-height: content.min-height;
+        content := VerticalLayout {
+            alignment: start;
+            padding: Space.xxl;
+            padding-top: Platform.os == OperatingSystemType.macos ? 48px : Space.xxl;
+            spacing: Space.xxl;
+
+            VerticalLayout {
+                spacing: Space.sm;
+
+                HorizontalLayout {
+                    alignment: space-between;
+
+                    Button {
+                        text: "Back";
+                        variant: ButtonVariant.ghost;
+                        icon: @image-url("../assets/icons/arrow-left.svg");
+                        clicked => { root.back(); }
+                    }
+
+                    Badge { text: "v0.1"; tone: BadgeTone.honey; y: (parent.height - self.height) / 2; }
+                }
+
+                Text {
+                    text: "Design system";
+                    color: Palette.text;
+                    font-size: 34px;
+                    font-weight: Type.bold;
+                }
+
+                Text {
+                    text: "Warm charcoal, honey accents and calm typography — the building blocks of Libee.";
+                    color: Palette.text-muted;
+                    font-size: Type.heading;
+                    wrap: word-wrap;
+                }
+            }
+
+            Section {
+                title: "Colors";
+                description: "Charcoal surfaces carry the content, honey highlights what matters.";
+
+                HorizontalLayout {
+                    spacing: Space.md;
+                    alignment: start;
+
+                    Swatch { name: "Background"; color: Palette.background; }
+                    Swatch { name: "Surface"; color: Palette.surface; }
+                    Swatch { name: "Raised"; color: Palette.surface-raised; }
+                    Swatch { name: "Border"; color: Palette.border-strong; }
+                    Swatch { name: "Text"; color: Palette.text; }
+                    Swatch { name: "Muted"; color: Palette.text-muted; }
+                }
+
+                HorizontalLayout {
+                    spacing: Space.md;
+                    alignment: start;
+
+                    Swatch { name: "Honey"; color: Palette.honey; }
+                    Swatch { name: "Success"; color: Palette.success; }
+                    Swatch { name: "Warning"; color: Palette.warning; }
+                    Swatch { name: "Danger"; color: Palette.danger; }
+                    Swatch { name: "Info"; color: Palette.info; }
+                }
+            }
+
+            Section {
+                title: "Typography";
+                description: "Inter for the interface, JetBrains Mono for paths, versions and commands.";
+
+                Card {
+                    TypeSample { name: "display"; size: Type.display; weight: Type.bold; }
+                    TypeSample { name: "title"; size: Type.title; weight: Type.semibold; }
+                    TypeSample { name: "heading"; size: Type.heading; weight: Type.semibold; }
+                    TypeSample { name: "body"; size: Type.body; weight: Type.regular; }
+                    TypeSample { name: "caption"; size: Type.caption; weight: Type.medium; }
+                    TypeSample { name: "mono"; size: Type.body; weight: Type.regular; family: Type.mono; }
+                }
+            }
+
+            Section {
+                title: "Buttons";
+                description: "One primary action per screen. Destructive actions are never the default.";
+
+                HorizontalLayout {
+                    spacing: Space.md;
+                    alignment: start;
+
+                    Button { text: "Scan machine"; icon: @image-url("../assets/icons/refresh-cw.svg"); }
+                    Button { text: "Secondary"; variant: ButtonVariant.secondary; }
+                    Button { text: "Ghost"; variant: ButtonVariant.ghost; }
+                    Button { text: "Uninstall"; variant: ButtonVariant.danger; }
+                    Button { text: "Disabled"; enabled: false; }
+                }
+            }
+
+            Section {
+                title: "Badges";
+                description: "Statuses and package managers at a glance.";
+
+                HorizontalLayout {
+                    spacing: Space.sm;
+                    alignment: start;
+
+                    Badge { text: "Active"; tone: BadgeTone.success; }
+                    Badge { text: "Outdated"; tone: BadgeTone.warning; }
+                    Badge { text: "Orphan"; tone: BadgeTone.danger; }
+                    Badge { text: "Duplicate"; tone: BadgeTone.info; }
+                    Badge { text: "Unknown"; }
+                    Badge { text: "brew"; tone: BadgeTone.honey; }
+                }
+            }
+
+            Section {
+                title: "Inputs";
+                description: "Search filters the inventory as you type.";
+
+                HorizontalLayout {
+                    alignment: start;
+
+                    SearchField { placeholder: "Search tools, managers, paths…"; width: 360px; }
+                }
+            }
+
+            Section {
+                title: "Cards";
+                description: "Key figures of a scan.";
+
+                HorizontalLayout {
+                    spacing: Space.md;
+
+                    StatCard { label: "TOOLS DETECTED"; value: "128"; hint: "across 4 managers"; }
+                    StatCard { label: "DISK USAGE"; value: "6.4 GB"; hint: "installations and caches"; }
+                    StatCard { label: "RECLAIMABLE"; value: "2.1 GB"; hint: "estimated, after review"; }
+                }
+            }
+        }
+    }
+}
