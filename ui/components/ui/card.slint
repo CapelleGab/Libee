@@ -1,0 +1,18 @@
+import { Palette } from "../../theme/colors.slint";
+import { Space, Radius } from "../../theme/spacing.slint";
+
+export component Card inherits Rectangle {
+    in property <length> inset: Space.lg;
+
+    background: Palette.surface;
+    border-radius: Radius.lg;
+    border-width: 1px;
+    border-color: Palette.border;
+
+    VerticalLayout {
+        padding: root.inset;
+        spacing: Space.md;
+
+        @children
+    }
+}
