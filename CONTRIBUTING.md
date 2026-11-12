@@ -48,18 +48,23 @@ cargo test
 
 ## Architecture
 
+Libee is organized **feature-first**: each feature owns its model, logic and Slint view.
+
 ```
 src/
-├── app/        # app state and orchestration, bridge to the UI
-├── core/       # domain model (Tool, Manager…)
-├── managers/   # one adapter per package manager
-├── inventory/  # scan engine
-└── platform/   # OS specifics
+├── main.rs        # entry point, wires features to the window
+├── shared/        # errors, structured commands, common types
+├── managers/      # one adapter per package manager (brew, npm…)
+└── features/
+    ├── inventory/ # model.rs, scan.rs, view.slint
+    ├── cleanup/   # preview.rs, run.rs, view.slint
+    └── history/
 ui/
-├── theme/      # design tokens (colors, type, spacing)
-├── components/ # reusable components
-└── views/      # screens
+├── main.slint     # app window and navigation
+└── theme/         # design tokens and reusable components
 ```
+
+Folders are created when the first feature needs them — no empty placeholders.
 
 ## Safety rules
 
